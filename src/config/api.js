@@ -6,6 +6,9 @@ const url = axios.create({
 });
 
 export default {
+  //==========================================================================================
+  //============================================= users ======================================
+  //==========================================================================================
   signUp: (data) => {
     return new Promise((resolve, reject) => {
       url
@@ -15,11 +18,11 @@ export default {
           password: data.password,
         })
         .then((response) => {
-          console.log(response);
+          localStorage.setItem("token", response.data.token);
+          Notify.succes("Login succes");
           resolve(true);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -32,13 +35,11 @@ export default {
           password: data.password,
         })
         .then((response) => {
-          console.log(response.data);
           localStorage.setItem("token", response.data.token);
           Notify.succes(response.data.message);
           resolve(true);
         })
         .catch((err) => {
-          console.log(err.response.data.message);
           Notify.error(err.response.data.message);
           reject(false);
         });
@@ -49,31 +50,41 @@ export default {
       url
         .get(`get_one_user/${id}`)
         .then((response) => {
-          // console.log(response.data);
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
   },
   updateUser: (data, id) => {
     return new Promise((resolve, reject) => {
-      url
-        .put(`update_user/${id}`, {
-          fullName: data.fullName,
-          email: data.email,
-          password: data.password,
-        })
-        .then((response) => {
-          console.log(response.data);
-          resolve(true);
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(false);
-        });
+      if (data.password.length > 0) {
+        url
+          .put(`update_user/${id}`, {
+            fullName: data.fullName,
+            email: data.email,
+            password: data.password,
+          })
+          .then((response) => {
+            resolve(true);
+          })
+          .catch((err) => {
+            reject(false);
+          });
+      } else {
+        url
+          .put(`update_user/${id}`, {
+            fullName: data.fullName,
+            email: data.email,
+          })
+          .then((response) => {
+            resolve(true);
+          })
+          .catch((err) => {
+            reject(false);
+          });
+      }
     });
   },
 
@@ -88,129 +99,17 @@ export default {
           },
         })
         .then((ress) => {
-          console.log(ress.data);
           resolve(true);
         })
         .catch((err) => {
-          console.log(err.response.data.message);
-          reject(false);
-        });
-    });
-  },
-  // get my list
-
-  createMyList: (data, userId, page) => {
-    return new Promise((resolve, reject) => {
-      url
-        .post(`create_mylist`, {
-          moviesId: data.moviesId,
-          image: data.image,
-          userId: userId,
-          title: data.title,
-          // genre: data.genre,
-          overview: data.overview,
-          date: data.date,
-          rating: 3,
-          isMyList: true,
-        })
-        .then(() => {
-          url.get(`/get_one_mylist?moviesId=${data.moviesId}`).then((ress) => {
-            console.log(ress.data);
-            resolve(ress.data);
-          });
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(false);
-        });
-    });
-  },
-  deleteMyList: (page, listId) => {
-    return new Promise((resolve, reject) => {
-      url
-        .delete(`delete_mylist/${listId}`)
-        .then(() => {
-          url.get(`/get_all?page=${page}&size=5`).then((ress) => {
-            console.log(ress.data);
-            resolve(ress.data);
-          });
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(false);
-        });
-    });
-  },
-  getAllMyList: (page) => {
-    return new Promise((resolve, reject) => {
-      url
-        .get(`/get_all?page=${page || 0}&size=5`)
-        .then((ress) => {
-          console.log(ress.data);
-          resolve(ress.data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(false);
-        });
-    });
-  },
-  getOneMyList: (id) => {
-    return new Promise((resolve, reject) => {
-      url
-        .get(`/get_one_mylist?moviesId=${id}`)
-        .then((ress) => {
-          resolve(ress.data);
-        })
-        .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
   },
 
-  // get comment
-
-  createComment: (data, idMovies, title, text) => {
-    return new Promise((resolve, reject) => {
-      url
-        .post(`create_comment`, {
-          image: data.image,
-          nama: data.fullName,
-          filmId: idMovies,
-          title: title,
-          text_comment: text,
-          rating: 3,
-        })
-        .then((response) => {
-          url.get(`getAllComment`).then((ress) => {
-            console.log(ress.data);
-            resolve(ress.data);
-          });
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(false);
-        });
-    });
-  },
-
-  getAllComment: () => {
-    return new Promise((resolve, reject) => {
-      url
-        .get(`getAllComment`)
-        .then((ress) => {
-          // console.log(ress.data);
-          resolve(ress.data);
-        })
-        .catch((err) => {
-          console.log(err.response.data.message);
-          reject(false);
-        });
-    });
-  },
-
-  // get movies
+  //==========================================================================================
+  //============================================= movies =====================================
+  //==========================================================================================
   getMovies: (genreId, page) => {
     return new Promise((resolve, reject) => {
       url
@@ -219,7 +118,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -232,7 +130,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -245,7 +142,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -258,7 +154,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -266,12 +161,11 @@ export default {
   getOneTv: (id) => {
     return new Promise((resolve, reject) => {
       url
-        .get(`get_one_tv/${id}`)
+        .get(`getOneTv/${id}`)
         .then((response) => {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -284,7 +178,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -297,7 +190,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -310,7 +202,6 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
           reject(false);
         });
     });
@@ -323,7 +214,212 @@ export default {
           resolve(response.data);
         })
         .catch((err) => {
-          console.log(err.message);
+          reject(false);
+        });
+    });
+  },
+
+  getCastingTv: (id) => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`get_casting_tv/${id}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+
+  getTrailerTv: (id) => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`get_trailer_tv/${id}`)
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+
+  //==========================================================================================
+  //============================================= my list ====================================
+  //==========================================================================================
+
+  createMyList: (data, userId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .post(`create_mylist`, {
+          moviesId: data.moviesId,
+          image: data.image,
+          userId: userId,
+          title: data.title,
+          genre: data.genre,
+          overview: data.overview,
+          date: data.date,
+          rating: data.rating,
+          duration: data.duration,
+          casting: data.casting,
+        })
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          console.log(err.response.message);
+          reject(false);
+        });
+    });
+  },
+  deleteMyList: (listId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .delete(`delete_mylist/${listId}`)
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          console.log(err.response.message);
+          reject(false);
+        });
+    });
+  },
+
+  getOneMyList: (userId, moviesId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`/get_one_mylist?userId=${userId}&moviesId=${moviesId}`)
+        .then((ress) => {
+          resolve(ress.data);
+        })
+        .catch((err) => {
+          console.log(err.response.message);
+          reject(false);
+        });
+    });
+  },
+
+  //===========================================================================================
+  //============================================= reviewed ====================================
+  //===========================================================================================
+  createReviewed: (data, userId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .post(`create_reviewed`, {
+          moviesId: data.moviesId,
+          image: data.image,
+          userId: userId,
+          title: data.title,
+          duration: data.duration,
+          genre: data.genre,
+          overview: data.overview,
+          date: data.date,
+          rating: data.rating,
+          casting: data.casting,
+        })
+        .then(() => {
+          resolve(true);
+        })
+
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+
+  getOneReviwed: (userId, moviesId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`/get_one_reviewed?userId=${userId}&moviesId=${moviesId}`)
+        .then((ress) => {
+          resolve(ress.data);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+  //==========================================================================================
+  //============================================ comment =====================================
+  //==========================================================================================
+
+  createComment: (data, idMovies, title, text, userId, rating) => {
+    return new Promise((resolve, reject) => {
+      url
+        .post(`create_comment`, {
+          userId: userId,
+          image: data.image,
+          nama: data.fullName,
+          moviesId: idMovies,
+          title: title,
+          text_comment: text,
+          rating: rating,
+        })
+        .then((response) => {
+          resolve(true);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+  updateComment: (data) => {
+    return new Promise((resolve, reject) => {
+      url
+        .put(`/update_comment/${data.reviewId}`, {
+          image: data.image,
+          nama: data.fullName,
+          title: data.title,
+          text_comment: data.text,
+          rating: data.rating,
+        })
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+
+  deleteComment: (id) => {
+    return new Promise((resolve, reject) => {
+      url
+        .delete(`/delete_comment/${id}`)
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          reject(false);
+        });
+    });
+  },
+
+  getAllComment: () => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`getAllComment`)
+        .then((ress) => {
+          resolve(ress.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          reject(false);
+        });
+    });
+  },
+
+  getOneComment: (moviesId, userId) => {
+    return new Promise((resolve, reject) => {
+      url
+        .get(`get_one_comment?userId=${userId}&moviesId=${moviesId}`)
+        .then((ress) => {
+          resolve(ress.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
           reject(false);
         });
     });

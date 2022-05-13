@@ -1,9 +1,17 @@
 import React from "react";
-import "./Input.scss";
+import "../../assets/scss/atom/Input.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 
 const Input = (props) => {
-  const { inputClassName, type, placeholder, register, value } = props;
+  const {
+    inputClassName,
+    type,
+    placeholder,
+    register,
+    value,
+    onChange,
+    search,
+  } = props;
   return (
     <div className={inputClassName}>
       <input
@@ -13,7 +21,7 @@ const Input = (props) => {
         placeholder={placeholder}
         className="input"
       />
-      <AiOutlineSearch className="search-icon" />
+      {search && <AiOutlineSearch className="search-icon" />}
     </div>
   );
 };

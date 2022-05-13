@@ -5,7 +5,8 @@
   align-items: center;
   gap: 30px;
   font-size: 24px;
-  .pagination-icon {
+  .back,
+  .next {
     background: white;
     border: 1px solid #a7a6a6;
     width: 40px;
@@ -13,12 +14,15 @@
     padding: 10px;
     border-radius: 50%;
     color: #eb5757;
+    cursor: pointer;
     &:hover {
       background-color: #eb5757;
       color: white;
-      cursor: pointer;
       border: 0px solid;
     }
+  }
+  .noPage {
+    cursor: no-drop;
   }
   p {
     display: flex;

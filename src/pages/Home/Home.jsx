@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Home = ({ noData, setNoData }) => {
+const Home = () => {
+  const [noData, setNoData] = useState(true);
   const settings = {
     dots: true,
     infinite: true,
@@ -30,21 +31,9 @@ const Home = ({ noData, setNoData }) => {
   const getPopular = async () => {
     const result = await api.getTop();
 
-    if (result.length === 0) {
-      setNoData(true);
-    } else {
-      setNoData(false);
-      setDataTop(result.data.slice(4, 8));
-    }
+    setNoData(false);
+    setDataTop(result.data.slice(4, 8));
   };
-
-  var myHTML = "<div><h1>Jimbo.</h1><p>That's what she said</p></div>";
-
-  var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
-
-  // Jimbo.
-  // That's what she said
-  console.log(strippedHtml);
 
   return (
     <>
@@ -54,7 +43,7 @@ const Home = ({ noData, setNoData }) => {
           <div className="scrolling-film-container">
             {noData ? (
               <Skeleton
-                style={{ width: "75%", height: "480px", borderRadius: "10px" }}
+                style={{ width: "75%", height: "480px", borderRadius: "15px" }}
               />
             ) : (
               <Slider {...settings}>
@@ -63,7 +52,6 @@ const Home = ({ noData, setNoData }) => {
                     <img
                       key={data.id}
                       src={`https://image.tmdb.org/t/p/w500${data.backdrop_path}`}
-                      alt=""
                     />
                   );
                 })}
@@ -102,9 +90,9 @@ const Home = ({ noData, setNoData }) => {
                         <Skeleton
                           count={3}
                           style={{
-                            height: "25px",
+                            height: "22px",
                             width: "100%",
-                            borderRadius: "10px",
+                            borderRadius: "5px",
                           }}
                         />
                       </div>

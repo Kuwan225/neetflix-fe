@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./scss/star.scss";
 import ReactStars from "react-rating-stars-component";
 
-const Star = () => {
+const Star = ({ value, change }) => {
   const ratingChanged = (newRating) => {
-    console.log(newRating);
+    change(newRating);
   };
   return (
     <ReactStars
@@ -12,6 +12,7 @@ const Star = () => {
       onChange={ratingChanged}
       size={60}
       activeColor="#ffd700"
+      value={value}
     />
   );
 };

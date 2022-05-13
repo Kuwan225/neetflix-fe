@@ -1,13 +1,13 @@
 .primary {
   width: 65%;
-  height: 65px;
+  height: 100%;
   background-color: white;
   color: red;
   border: 1px solid red;
   font-size: 18px;
   font-weight: 700;
   border-radius: 6px;
-  margin-top: 50px;
+  cursor: pointer;
   &:hover {
     color: white;
     background-color: red;
@@ -16,13 +16,15 @@
 .secondary {
   width: 100%;
   margin-top: 20px;
-  height: 46px;
+  height: 100%;
   background-color: red;
   color: white;
   border: 1px solid red;
   font-size: 15px;
   font-weight: 700;
   border-radius: 6px;
+  cursor: pointer;
+
   &:hover {
     background-color: white;
     color: red;

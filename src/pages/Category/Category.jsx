@@ -7,12 +7,17 @@ import Pagination from "../../components/pagination/Pagination";
 import { Link, useParams } from "react-router-dom";
 import api from "../../config/api";
 import Card from "../../components/Molekul/card/Card";
+import Skeleton from "react-loading-skeleton";
 
 const Category = () => {
   const { category } = useParams();
   const genreId = localStorage.getItem("genreId");
   const [dataMovies, setDataMovies] = useState([]);
   const [page, setPage] = useState(1);
+  const [noData, setNoData] = useState(true);
+  const skeleton = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
 
   useEffect(() => {
     getMovies();
@@ -23,6 +28,7 @@ const Category = () => {
     setDataMovies(
       result.data.filter((el) => el.genre_ids.includes(parseInt(genreId)))
     );
+    setNoData(false);
   };
   return (
     <div>
@@ -43,18 +49,33 @@ const Category = () => {
         </div>
 
         <div className="all-category">
-          <p className="all-category-title">{category || "Category"}</p>
+          {noData ? (
+            <Skeleton style={{ width: "250px", height: "50px" }} />
+          ) : (
+            <p className="all-category-title">{category || "Category"}</p>
+          )}
           <div className="all-category-film">
-            {dataMovies.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  to={`/detail?moviesId=${item.id}&title=${item.original_title}`}
-                >
-                  <Card data={item} tahun={item.release_date.slice(0, 4)} />
-                </Link>
-              );
-            })}
+            {noData
+              ? skeleton.map((el) => (
+                  <Skeleton
+                    key={el}
+                    style={{
+                      width: "250px",
+                      height: "330px",
+                      borderRadius: "10px",
+                    }}
+                  />
+                ))
+              : dataMovies.map((item) => {
+                  return (
+                    <Link
+                      key={item.id}
+                      to={`/detail?moviesId=${item.id}&title${item.original_title}`}
+                    >
+                      <Card data={item} tahun={item.release_date.slice(0, 4)} />
+                    </Link>
+                  );
+                })}
           </div>
         </div>
         <Pagination page={page} setPage={setPage} />

@@ -6,13 +6,10 @@ import "./PhotoProfil.scss";
 const PhotoProfil = ({ image, changeImageHandler }) => {
   return (
     <div className="profil-img">
-      {image ? (
-        <img src={image} alt="err" />
+      {image == "http://localhost:3001/imagenull" ? (
+        <img src={"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} />
       ) : (
-        <img
-          src={"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
-          alt="errbang"
-        />
+        <img src={image} alt="err" />
       )}
       <div className="file-upload">
         <label htmlFor="fusk">

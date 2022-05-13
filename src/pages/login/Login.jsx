@@ -4,15 +4,20 @@ import FirstTitle from "../../components/loginSignUpComponents/firstTitle/FirstT
 import SecondTitle from "../../components/loginSignUpComponents/secondTitle/SecondTitle";
 import Label from "../../components/label/Label";
 import SubmitButton from "../../components/submitButton/SubmitButton";
-import Input from "../../components/input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import API from "../../config/api";
 import Loading from "../../components/Atom/Loading";
+import Input from "../../components/Atom/Input";
+import ValidasiError from "../../components/Atom/ValidasiError";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { handleSubmit, register } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
@@ -48,6 +53,7 @@ const Login = () => {
                 required: true,
               })}
             />
+            {errors.email && <ValidasiError label="Email is required" />}
             <Label>Password</Label>
             <Input
               inputClassName={"inputLogin"}
@@ -55,8 +61,15 @@ const Login = () => {
               placeholder={"Password"}
               register={register("password", {
                 required: true,
+                minLength: 8,
               })}
             />
+            {errors.password && errors.password.type === "required" && (
+              <ValidasiError label="Password is required" />
+            )}
+            {errors.password && errors.password.type === "minLength" && (
+              <ValidasiError label="Password minimum 8 karakter" />
+            )}
             {/* <div className="login-option"> */}
             {/* <div className="remember-me">
                 <CheckButton />
@@ -69,14 +82,11 @@ const Login = () => {
             <SubmitButton>Login Now</SubmitButton>
           </div>
           <div className="login-option">
-            <div className="remember-me">
-              {/* <CheckButton /> */}
-              <Link style={{ textDecoration: "none" }} to="/forgot_password">
-                <p>forgot password?</p>
-              </Link>
-            </div>
+            <Link style={{ textDecoration: "none" }} to="/forgot_password">
+              <p>forgot password?</p>
+            </Link>
             <Link style={{ textDecoration: "none" }} to="/signup">
-              <p>signup?</p>
+              <p>Register</p>
             </Link>
           </div>
         </form>

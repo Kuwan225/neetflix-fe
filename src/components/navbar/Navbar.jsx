@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Input from "../input/Input";
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
@@ -7,6 +6,7 @@ import NavbarDropDown from "./NavbarDropDown";
 import decode from "jwt-decode";
 import API from "../../config/api";
 import { useForm } from "react-hook-form";
+import Input from "../Atom/Input";
 
 const Navbar = (props) => {
   const { handleSubmit, register } = useForm();
@@ -21,11 +21,11 @@ const Navbar = (props) => {
 
   useEffect(async () => {
     if (token) {
-      setIsLogin(true);
-      const dataToken = decode(token);
-      const result = await API.getOneUser(dataToken.id);
+      const userId = decode(token);
+      const result = await API.getOneUser(userId.id);
       if (result) {
         setDataUser(result.data);
+        setIsLogin(true);
       }
     } else {
       setIsLogin(false);
@@ -97,6 +97,7 @@ const Navbar = (props) => {
           <Input
             inputClassName={"inputNavbar"}
             type="text"
+            search={true}
             placeholder="Search film"
             register={register(`search`, {
               required: true,
@@ -115,7 +116,7 @@ const Navbar = (props) => {
                     return (
                       <Link
                         key={item.id}
-                        to={`detail?title=${item.original_title}&id=${item.id}`}
+                        to={`/detail?title=${item.original_title}&moviesId=${item.id}`}
                         className="text-search"
                       >
                         <img

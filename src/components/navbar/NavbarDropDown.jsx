@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavbarDropDown.scss";
 import classNames from "classnames";
 
-const NavbarDropDown = (props) => {
+const NavbarDropDown = ({ image, fullname, className }) => {
   const Navigate = useNavigate();
   const [dropDownMenu, setDropDownMenu] = useState(false);
   const dropDownHoverHandler = () => {
@@ -25,20 +25,17 @@ const NavbarDropDown = (props) => {
       onMouseOver={dropDownHoverHandler}
       onMouseLeave={dropDownLeaveHover}
     >
-      {props.image ? (
-        <img src={props.image} alt="err" />
+      {image == "http://localhost:3001/imagenull" ? (
+        <img src={"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} />
       ) : (
-        <img
-          src={"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
-          alt="err"
-        />
+        <img src={image} alt="err" />
       )}
-      <p>{props.fullname}</p>
+      <p>{fullname}</p>
       <GoTriangleDown />
       {dropDownMenu && (
         <div className="dropDownNav">
           <Link
-            className={classNames("Link", props.className)}
+            className={classNames("Link", className)}
             style={{ textDecoration: "none" }}
             to="/profil"
           >

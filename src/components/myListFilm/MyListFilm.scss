@@ -4,6 +4,8 @@ $redColor: #eb5757;
   padding-top: 50px;
   display: flex;
   gap: 40px;
+  justify-content: space-between;
+  width: 100%;
   .mylist-img {
     img {
       width: 346px;
@@ -13,6 +15,7 @@ $redColor: #eb5757;
   .mylist-detail {
     display: flex;
     align-items: center;
+    width: 100%;
     .mylist-info {
       display: flex;
       flex-direction: column;
@@ -25,6 +28,7 @@ $redColor: #eb5757;
       ul {
         display: flex;
         gap: 15px;
+        color: grey;
         li {
           font-weight: 500;
           font-size: 14px;

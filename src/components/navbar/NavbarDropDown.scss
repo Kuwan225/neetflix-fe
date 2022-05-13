@@ -6,6 +6,7 @@ $redColor: #eb5757;
   position: relative;
   gap: 10px;
   height: 100px;
+  margin-left: 30px;
   img {
     width: 40px;
     height: 40px;
@@ -27,7 +28,7 @@ $redColor: #eb5757;
     justify-content: center;
     flex-direction: column;
     border-radius: 10px;
-    animation: hideDropdown 0.2s;
+    animation: hideDropdown 0.1s;
     .Link {
       text-decoration: none;
       color: black;
@@ -48,7 +49,7 @@ $redColor: #eb5757;
       transform: rotate(45deg);
       box-shadow: 0px 0px 10px rgba(47, 47, 47, 0.1);
       background: white;
-      animation: hide 0.8s;
+      animation: hide 0.5s;
       z-index: -1;
     }
     &::before {

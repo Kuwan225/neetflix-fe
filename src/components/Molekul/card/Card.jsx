@@ -2,10 +2,16 @@ import "./card.scss";
 
 import React from "react";
 import Star from "../../Star/Star";
+import { motion } from "framer-motion";
 
 const Card = ({ data, tahun }) => {
   return (
-    <div className="container-card">
+    <motion.div
+      className="container-card"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+    >
       <div className={"info-item"}>
         <div className="item-title">
           <p>
@@ -17,11 +23,11 @@ const Card = ({ data, tahun }) => {
       <img
         className="img"
         src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-        alt=""
+        alt={data.original_name}
         width={"250px"}
         height={"330px"}
       />
-    </div>
+    </motion.div>
   );
 };
 

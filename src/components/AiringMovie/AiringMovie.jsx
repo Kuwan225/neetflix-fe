@@ -8,8 +8,8 @@ const AiringMovie = ({ data }) => {
         className="airing-images"
         src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
         alt=""
-        width={"90px"}
-        height={"85px"}
+        width={"80px"}
+        height={"70px"}
       />
       <div className="airing-text-container">
         <p className="airing-film-title">{data.original_title}</p>

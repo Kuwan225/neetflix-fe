@@ -107,7 +107,9 @@ $Bold: 700;
         & .airing-text-container {
           display: flex;
           flex-wrap: wrap;
-
+          & .airing-film-title {
+            font-weight: 500;
+          }
           & .airing-text {
             font-family: $InterFont;
             font-weight: $Regular;

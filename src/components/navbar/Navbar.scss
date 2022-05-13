@@ -50,6 +50,7 @@ $activeInput: #1a73e8;
     justify-content: space-between;
     width: 39%;
     position: relative;
+    left: -10px;
     .inputNavbar {
       position: relative;
       .input {
@@ -108,7 +109,7 @@ $activeInput: #1a73e8;
     ul {
       display: flex;
       align-items: center;
-
+      margin-right: -30px;
       .loginSignupNav {
         text-decoration: none;
         color: black;
@@ -124,7 +125,6 @@ $activeInput: #1a73e8;
           align-items: center;
           width: 90px;
           height: 44px;
-
           border-radius: 8px;
         }
       }

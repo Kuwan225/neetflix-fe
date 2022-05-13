@@ -5,11 +5,12 @@ import SecondTitle from "../../components/loginSignUpComponents/secondTitle/Seco
 import Label from "../../components/label/Label";
 import SubmitButton from "../../components/submitButton/SubmitButton";
 import Loading from "../../components/Atom/Loading";
-import Input from "../../components/input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import API from "../../config/api";
 import Notify from "../../components/Atom/Notify";
+import Input from "../../components/Atom/Input";
+import ValidasiError from "../../components/Atom/ValidasiError";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -52,6 +53,8 @@ const Signup = () => {
                 required: true,
               })}
             />
+            {errors.fullName && <ValidasiError label="Fullname is required" />}
+
             <Label>Email</Label>
             <Input
               inputClassName={"signupLogin"}
@@ -61,6 +64,7 @@ const Signup = () => {
                 required: true,
               })}
             />
+            {errors.email && <ValidasiError label="Email is required" />}
 
             <Label>Password</Label>
             <Input
@@ -69,8 +73,16 @@ const Signup = () => {
               placeholder={"Password"}
               register={register("password", {
                 required: true,
+                minLength: 8,
               })}
             />
+            {errors.password && errors.password.type === "required" && (
+              <ValidasiError label="Password is required" />
+            )}
+            {errors.password && errors.password.type === "minLength" && (
+              <ValidasiError label="Password minimum 8 karakter" />
+            )}
+
             <Label>Confirm Password</Label>
             <Input
               inputClassName={"signupLogin"}
@@ -80,12 +92,13 @@ const Signup = () => {
                 required: true,
               })}
             />
+            {errors.conPassword && (
+              <ValidasiError label="Confirm password is required" />
+            )}
+
             <SubmitButton>Sign Me Up</SubmitButton>
-            <Link
-              style={{ textDecoration: "none", textAlign: "center" }}
-              to="/login"
-            >
-              <p>Login?</p>
+            <Link style={{ textDecoration: "none" }} to="/login">
+              <p className="signin">Login</p>
             </Link>
           </div>
         </form>

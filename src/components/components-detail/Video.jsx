@@ -1,10 +1,11 @@
 import React from "react";
+import "./scss/video.scss";
 
 const Video = ({ data }) => {
   return (
     <div className="video">
       <iframe
-        width="370"
+        width="310"
         height="240"
         src={`https://www.youtube.com/embed/${data.key}`}
         title="YouTube video player"

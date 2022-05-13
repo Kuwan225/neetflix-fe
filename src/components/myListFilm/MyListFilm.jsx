@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MyListFilm.scss";
 import DeleteList from "../deleteList/DeleteList";
 import Rating from "../Rating/Rating";
 import api from "../../config/api";
+import { Link } from "react-router-dom";
 
-const MyListFilm = ({ data, myListId, setDataMyList, page }) => {
+const MyListFilm = ({
+  data,
+  myListId,
+  setDataMyList,
+  userId,
+  setNoData,
+  isDelete,
+}) => {
   const disabledDelete = async () => {
-    const result = await api.deleteMyList(page, myListId);
-    setDataMyList(result.data);
+    const result = await api.deleteMyList(myListId, userId);
+    const resultData = await api.getOneUser(userId);
+    setDataMyList(resultData.data.mylists);
+    if (resultData.data.mylists.length > 0) {
+      setNoData(false);
+    } else {
+      setNoData(true);
+    }
   };
   return (
     <div className="mylist-list">
@@ -16,22 +30,21 @@ const MyListFilm = ({ data, myListId, setDataMyList, page }) => {
       </div>
       <div className="mylist-detail">
         <div className="mylist-info">
-          <h2>{data.title}</h2>
-          <ul>
-            <li>2019</li>
-            <li>|</li>
-            <li>3 hours 2 minutes </li>
-            <li>
-              {/* Genre :{data.genre.map((el) => {
-                return `${el.name}, `;
-              }) } */}
-            </li>
-            <li>Staring : Roberst Downey Jr, Chris Evan, Mark Rufallo</li>
-          </ul>
-          <p>{data.overview}</p>
+          <>
+            <h2>{data.title}</h2>
+            <ul>
+              <li>{data.date}</li>
+              <li>|</li>
+              <li>{data.duration}</li>
+              <li>Genre :{data.genre}</li>
+              <li>Staring : {data.casting}</li>
+            </ul>
+            <p>{data.overview}</p>
+          </>
+
           <div className="mylist-rating">
             <Rating data={data.rating} />
-            <DeleteList disabledDelete={disabledDelete} />
+            {isDelete && <DeleteList disabledDelete={disabledDelete} />}
           </div>
         </div>
       </div>

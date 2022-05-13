@@ -1,22 +1,23 @@
 import "./EditProfil.scss";
 import React, { useState, useEffect } from "react";
 import Label from "../../label/Label";
-import Input from "../../input/Input";
 import decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import SubmitButton from "../../submitButton/SubmitButton";
 import Loading from "../../Atom/Loading";
 import API from "../../../config/api";
 import { useForm } from "react-hook-form";
+import Notify from "../../Atom/Notify";
+import Input from "../../Atom/Input";
 
 const EditProfil = ({ saveAvatar }) => {
   const navigate = useNavigate();
   const { handleSubmit, register } = useForm();
+  const [dataUser, setDataUser] = useState("");
   const [fullNameEdit, setFullNameEdit] = useState("");
   const [emailEdit, setEmailEdit] = useState("");
   const [passwordEdit, setPasswordEdit] = useState("");
   const [conpasswordEdit, setConPasswordEdit] = useState("");
-  const [dataUser, setDataUser] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -36,12 +37,20 @@ const EditProfil = ({ saveAvatar }) => {
   const onSubmit = async () => {
     saveAvatar();
     setLoading(true);
-    const result = await API.updateUser(
-      { fullName: fullNameEdit, email: emailEdit, password: passwordEdit },
-      dataUser.id
-    );
-    if (result) {
-      navigate("/");
+
+    if (passwordEdit == conpasswordEdit) {
+      const data = {
+        fullName: fullNameEdit,
+        email: emailEdit,
+        password: passwordEdit,
+      };
+      const result = await API.updateUser(data, dataUser.id);
+      if (result) {
+        navigate("/");
+        setLoading(false);
+      }
+    } else {
+      Notify.error("Password is not the same");
       setLoading(false);
     }
   };
@@ -74,7 +83,6 @@ const EditProfil = ({ saveAvatar }) => {
           />
           <Label>Password</Label>
           <Input
-            value={passwordEdit}
             inputClassName={"profil-input"}
             type="password"
             placeholder={"Password"}

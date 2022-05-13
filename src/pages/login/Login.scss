@@ -2,10 +2,10 @@ $redColor: #eb5757;
 $activeInput: #1a73e8;
 
 .login {
+  height: 100vh;
   display: flex;
   .side-image {
     width: 40%;
-    height: 900px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
       url("https://i.ibb.co/X3ZWW7M/sideimage.png");
     background-size: cover;
@@ -21,7 +21,7 @@ $activeInput: #1a73e8;
     form {
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 15px;
 
       .login-input {
         gap: 20px;
@@ -32,7 +32,6 @@ $activeInput: #1a73e8;
       h2 {
         font-size: 18px;
         font-weight: 400;
-        margin-bottom: -15px;
       }
 
       .inputLogin {
@@ -56,13 +55,9 @@ $activeInput: #1a73e8;
       justify-content: space-between;
       position: relative;
       p {
-        font-weight: 400;
-        font-size: 14px;
-      }
-      .remember-me {
-        display: flex;
-        align-items: center;
-        gap: 30px;
+        font-weight: 450;
+        font-size: 16px;
+        color: grey;
       }
     }
   }

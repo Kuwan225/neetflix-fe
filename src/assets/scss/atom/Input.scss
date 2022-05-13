@@ -10,8 +10,8 @@ $activeInput: #1a73e8;
   font-weight: 400;
 }
 
-.input:focus {
-  background: #f0f0f0;
+.input:focus,
+.input:hover {
   outline: none;
   border: 1px solid $activeInput;
   box-shadow: 0 0 3px $activeInput;
